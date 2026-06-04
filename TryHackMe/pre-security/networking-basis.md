@@ -49,3 +49,27 @@ A subnet mask is a sequence of 32 bits that identifies the network.
 172.16.0.1 /16 — if you add the first two bytes (172.16), you get 16 bits (since one byte contains **8 bits**). Another notation format that is often encountered is 255.255.0.0 (decimal). The first bits are set to 1 (the subnet), while the remaining bits are 0 (hosts within the subnet). The notation 255.255.255.0 corresponds to the first 24 bits being ones (that is, /24), while 255.0.0.0 corresponds to 8 one-bits (that is, /8).
 
 */16 is the number of one-bits in the subnet mask. Without the slash signs. For example, the mask 255.255.240.0 is /20 (11111111.11111111.11110000.00000000).*
+
+## ARP
+
+The ARP protocol is used to determine the recipient's MAC address based on its IP address. It operates on a **request-response** principle. When sending a request, the value of the **THA** field is set to FF:FF:FF:FF:FF:FF. Due to broadcasting, this request is received by all devices located within the same network segment. After receiving the request, the destination host compares the IP address in the request with its own IP address. If they match, it generates a reply containing its MAC address (otherwise, the request is ignored).
+
+After learning the recipient's MAC address, the sender host stores it in its cache.
+
+| IP Address | MAC Address | Dynamic/Static |
+| ---------- | ----------- | -------------- |
+
+*Dynamic entries are typically stored for about 40 seconds and are removed after expiration.*
+
+| Field   | Purpose                 | Notes                          |
+| ------- | ----------------------- | ------------------------------ |
+| **SHA** | Sender's MAC address    | -                              |
+| **SPA** | Sender's IP address     | -                              |
+| **THA** | Recipient's MAC address | Field value: FF:FF:FF:FF:FF:FF |
+| **TPA** | Recipient's IP address  | -                              |
+
+Packet transmission within a single network segment occurs as follows:
+
+1. Before sending packets, Host_1 checks its ARP cache for the recipient's MAC address. If it is not present, Host_1 sends an ARP request.
+2. Host_2 compares the IP address in the request. If the address belongs to it, it sends a reply containing its MAC address.
+3. Host_1 stores the MAC address in its cache and sends packets using that MAC address.
