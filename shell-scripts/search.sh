@@ -1,8 +1,8 @@
 #!/bin/bash
 
-dir = " "
-text = " "
-filetype = " "
+dir=""
+text=""
+filetype=""
 
 echo "directory: "
 read dir 
