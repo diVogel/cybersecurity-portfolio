@@ -7,4 +7,5 @@ read domain
 
 nslookup domain\
 | grep -i "server"\
-| IP= awk '{print $2}' 
+| IP= awk '{print $2}'\
+| nmap -sS $IP
