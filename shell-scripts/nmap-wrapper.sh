@@ -1,13 +1,10 @@
 #!/bin/bash
 
 domain=""
-ip=""
 
-echo "Please, write some domain: "
+echo "Please, write the domain: "
 read domain 
 
-if ["$domain" != " "];then
-touch ipget.txt < nslookup domain
-else
-echo "$domain is not found"
-fi
+nslookup domain\
+| grep -i "server"\
+| IP= awk '{print $2}' 
