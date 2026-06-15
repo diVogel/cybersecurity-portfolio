@@ -130,3 +130,43 @@ For such a network to function, Router_2 must have information about the network
 | 172.16.12.0/24 | 172.16.12.102 |
 | 10.0.0.0/24    | 192.168.1.101 |
 | 169.254.1.0/24 | 172.16.12.103 |
+
+
+## NAT Masquerading
+
+> IP addresses can be divided into two types:
+>
+> * **Private addresses** — addresses used exclusively within local networks.
+> * **Public addresses** — addresses used on the global Internet.
+
+NAT technology is used to replace a private IP address with a public IP address. When a router receives packets from the local network for transmission, it replaces the sender's IP address with its own external IP address and stores this mapping. When a reply arrives, the reverse translation is performed.
+
+This is necessary to optimize the global IP address space, since the number of IP addresses is limited. Instead of assigning a unique public address to every device, a public address is assigned to the home router (by the ISP), while a separate local address space is created for connected devices. Within this local network, specially reserved private IP ranges are used for routing. It is this technology that allows a local network to communicate with the global Internet.
+
+*Some examples of private IP address ranges are omitted here.*
+
+Host --- (private IP space) --- Router --- (public IP space) --- ISP
+
+Routers with NAT functionality can be arranged in a chain, in which case the sender's IP address in the original packet may be modified multiple times.
+
+![alt text](images/image.png)
+
+
+1. Initially, a packet is sent from Host_1 (sender IP address: 192.168.1.1).
+2. As it passes through Router_1, its source IP address is changed to 10.0.0.254 because NAT is enabled on that router.
+3. As it passes through Router_2, its source IP address is changed to 77.88.8.254.
+4. As a result, Server_1 receives the ICMP request with a source IP address of 77.88.8.254.
+
+Typically, Masquerading is implemented using a combination of the sender's IP address and port number. After replacing the sender's IP address with its own public address, the router also extracts the sender's port from the TCP/UDP header and combines them as shown below. It then assigns a random port to the public address to avoid collisions.
+
+192.168.1.102:32768 → 216.58.209.174:80
+
+77.79.176.6:55000 = 192.168.1.102:32768
+
+216.58.209.174:80 → 77.79.176.6:55000
+
+Reverse translation to:
+
+192.168.1.102:32768
+
+*This is necessary so that during reverse translation, the router can correctly determine which device should receive the response.*
