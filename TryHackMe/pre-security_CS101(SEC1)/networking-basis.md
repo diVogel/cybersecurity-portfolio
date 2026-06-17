@@ -151,7 +151,6 @@ Routers with NAT functionality can be arranged in a chain, in which case the sen
 
 ![alt text](images/image.png)
 
-
 1. Initially, a packet is sent from Host_1 (sender IP address: 192.168.1.1).
 2. As it passes through Router_1, its source IP address is changed to 10.0.0.254 because NAT is enabled on that router.
 3. As it passes through Router_2, its source IP address is changed to 77.88.8.254.
@@ -183,3 +182,10 @@ This layer is responsible for delivering data between the applications (services
 * **User ports** — from 1024 to 65,535. These ports can be opened by a regular user.
 
 *As a result, the combination of an IP address and a port number, for example 192.168.1.100:80, identifies a specific application on a specific host. This combination is also referred to as a **socket**.*
+
+UDP - Fast, without prior connection establishment; packets may be lost.
+
+![alt text](images/image2.png)
+
+TCP - Reliable, with no packet loss and optimal speed, but slower than UDP.
+ 
