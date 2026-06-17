@@ -170,3 +170,16 @@ Reverse translation to:
 192.168.1.102:32768
 
 *This is necessary so that during reverse translation, the router can correctly determine which device should receive the response.*
+
+
+# Transport Layer
+
+This layer is responsible for delivering data between the applications (services) of the sender and the recipient. A host may run hundreds of services simultaneously, and in order to direct data to the correct application (identify it), **PORTS** are used. A port is a data entry/exit point and has a range of up to 2 bytes in size.
+
+1. A single port can be listened to by no more than one service at a time.
+2. A single service can use multiple ports.
+
+* **Privileged ports** — from 0 to 1023. These ports can only be opened by an administrator or superuser.
+* **User ports** — from 1024 to 65,535. These ports can be opened by a regular user.
+
+*As a result, the combination of an IP address and a port number, for example 192.168.1.100:80, identifies a specific application on a specific host. This combination is also referred to as a **socket**.*
