@@ -189,3 +189,46 @@ UDP - Fast, without prior connection establishment; packets may be lost.
 
 TCP - Reliable, with no packet loss and optimal speed, but slower than UDP.
  
+ ### State Flags
+
+| Flag | Meaning                                                                                                                  |
+| ---- | ------------------------------------------------------------------------------------------------------------------------ |
+| URG  | Indicates that the **Urgent Pointer** field contains a valid value and that the data in the segment is high-priority.    |
+| ACK  | Indicates that the **Acknowledgment Number** field is in use and contains the sequence number of the next expected byte. |
+| PSH  | Indicates that the data should be immediately delivered to the application layer (program) rather than buffered.         |
+| RST  | Forces a connection reset or termination.                                                                                |
+| SYN  | Synchronizes **Sequence Numbers** between the sender and receiver.                                                       |
+| FIN  | Indicates that the sender has finished transmitting data and wishes to close the connection.                             |
+
+### Connection Establishment
+
+Before data can be transmitted, a connection must be established between the applications to ensure that both sides are ready to send and receive data. Without this connection, data transmission cannot begin. This process is known as the **three-way handshake**.
+
+*TCP Connection Establishment*
+
+1. The client sends a packet with the **SYN** flag set in the TCP header.
+2. Upon receiving it, the server generates a response with the **SYN + ACK** flags set.
+3. In the final stage, the client receives the **SYN + ACK** response and replies with an **ACK** flag.
+
+*Case where the destination port is closed*
+
+1. The client sends a TCP packet with the **SYN** flag set.
+2. Since the required port is closed on the server, the server responds with the **RST** flag.
+
+*Case where no response is received*
+
+In this case, the client does not receive any response and assumes that the packets may have been lost in transit. As a result, it retries several times with increasing time intervals between attempts.
+
+### Connection Termination
+
+After all data has been transmitted, the connection must be closed. It cannot simply be left open. The following sequence occurs:
+
+Client → (FIN + ACK)
+
+Server → (ACK)
+
+Server → (FIN + ACK)
+
+Client → (ACK)
+
+After sending all packets, the client initiates connection termination by sending a close request. However, there are situations where the server has not yet finished sending its own data while the client is still able to receive it. In this case, the server first responds with an **ACK** flag. Only after the server has finished transmitting all remaining data does it send its own **FIN + ACK** packet to request connection closure.
