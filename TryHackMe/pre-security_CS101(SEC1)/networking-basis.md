@@ -232,3 +232,23 @@ Server → (FIN + ACK)
 Client → (ACK)
 
 After sending all packets, the client initiates connection termination by sending a close request. However, there are situations where the server has not yet finished sending its own data while the client is still able to receive it. In this case, the server first responds with an **ACK** flag. Only after the server has finished transmitting all remaining data does it send its own **FIN + ACK** packet to request connection closure.
+
+### Sequence Number and Acknowledgment Number
+
+The **Sequence Number** and **Acknowledgment Number** fields are responsible for reliable, lossless data delivery. When TCP receives data for transmission, it divides the data into multiple segments (a byte stream or byte array). After a connection is established, these segments are sent to the recipient. Upon receiving a segment, the recipient generates a response with the **ACK** flag set to acknowledge receipt and allow the exchange to continue.
+
+* **Sequence Number** — this field allows the receiver to correctly reassemble received segments (packets), since packets may arrive out of order. It contains the byte offset of the first byte of data carried by the segment within the overall data stream (therefore, the first segment carries the value 0 because it represents the beginning of the data stream). Based on the Sequence Number, the receiver places data in the appropriate location within its buffer, leaving space for segments that have not yet arrived or have arrived out of order, and eventually reconstructs the original data in the correct sequence.
+
+* **Acknowledgment Number** — a field used in ACK responses. It is used to confirm receipt of data and contains the sequence number of the next expected byte (+1) since the beginning of the connection. If a segment arrives out of order, this value does not advance and continues to indicate the next byte expected in sequence.
+
+*If the sender does not receive an ACK response from the receiver, it will attempt to retransmit the packets after waiting for several seconds.*
+
+1. Client ------ SYN (Ack=0, Seq=0) -----> Server
+2. Server ------ SYN + ACK (Seq=0, Ack=1) -----> Client
+3. Client ------ ACK (Ack=1, Seq=1) -----> Server
+4. Client ------ PUSH (Ack=1, Seq=1, Size=1000) -----> Lost
+5. Client ------ PUSH (Ack=1, Seq=1001, Size=800) -----> Lost
+6. Client ------ PUSH (Ack=1, Seq=1801, Size=1000) -----> Server
+7. Server ------ ACK (Ack=1, Seq=1) -----> Client (the Ack field remains equal to the value established during connection setup)
+
+The client receives an ACK packet again with **Ack=1**. This indicates that the first data segment was not received successfully and must be retransmitted.
