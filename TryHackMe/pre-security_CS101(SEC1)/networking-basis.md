@@ -252,3 +252,19 @@ The **Sequence Number** and **Acknowledgment Number** fields are responsible for
 7. Server ------ ACK (Ack=1, Seq=1) -----> Client (the Ack field remains equal to the value established during connection setup)
 
 The client receives an ACK packet again with **Ack=1**. This indicates that the first data segment was not received successfully and must be retransmitted.
+
+### Additional Details
+
+During connection establishment, the receiving host informs the sender about the amount of free space available in its buffer using the **Window** field. If sufficient space is available, the sender can transmit multiple segments of the data stream without waiting for an ACK response after each segment.
+
+When the buffer becomes full, the value of the **Window** field is reduced to zero. Upon receiving such an ACK response, the sender stops transmitting data and waits until it receives another ACK indicating that buffer space has become available again. To prevent buffer overflow and efficiently utilize network resources, various congestion-control algorithms were developed.
+
+*First, the time required to receive a response to a transmitted packet is called the **Round-Trip Time (RTT)**. Generally, the higher this value, the more congested the network path or receiver buffer is likely to be.*
+
+As a result, the data transmission rate in TCP is controlled by several factors:
+
+* The **Window** size (available receiver buffer space).
+* The **RTT** value.
+* The **Congestion Window (cwnd)**, which determines how many packets may be sent without waiting for acknowledgments.
+
+Together, these parameters form the basis of TCP congestion-control algorithms, which dynamically adjust the transmission rate according to current network conditions and the receiver's ability to process incoming data.
