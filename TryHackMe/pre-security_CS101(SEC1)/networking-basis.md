@@ -271,6 +271,8 @@ Together, these parameters form the basis of TCP congestion-control algorithms, 
 
 ## ICMP
 
+![alt text](images/image3.png)
+
 ICMP (**Internet Control Message Protocol**) is a protocol used to detect and report various network errors. It operates on top of the IP protocol at the **Network Layer**.
 
 The ICMP header contains several important fields:
