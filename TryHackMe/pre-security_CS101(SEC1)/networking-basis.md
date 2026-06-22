@@ -300,3 +300,34 @@ Unlike TCP or UDP, ICMP does not transport application data. Its primary purpose
 |    5=0    | Redirect for Network                 | A router informs a host that a better route exists for reaching a particular network.                                                                                                                                                                                |
 |    5=1    | Redirect for Host                    | A router informs a host that a better route exists for reaching a specific destination host.                                                                                                                                                                         |
 |    4=0    | Source Quench (Deprecated)           | Historically used when a host or router could not process packets quickly enough, usually due to buffer overflow or congestion, and requested that the sender reduce its transmission rate. This message type is now obsolete and no longer used in modern networks. |
+
+
+# HTTP
+
+**Uniform Resource Locator (URL)**
+
+HTTP (**Hypertext Transfer Protocol**) is used to exchange information between a client (for example, a web browser) and a web server. It is used in two forms:
+
+* **HTTP Request** — used when the client sends a request to the server.
+* **HTTP Response** — used when the web server replies to the client's request.
+
+For better performance and compatibility, both requests and responses use **headers**, which help identify capabilities, preferences, and other important information that needs to be exchanged between the client and server.
+
+## Request
+
+```http
+POST /path HTTP/1.1
+Host: facebook.com
+User-Agent: Mozilla/5.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 33
+
+name=Aleksandr&age=21&country=US
+```
+
+| Method | Purpose                                          |
+| ------ | ------------------------------------------------ |
+| GET    | Retrieve a web page or other resource.           |
+| POST   | Submit or update data on the server.             |
+| PUT    | Create or completely replace data on the server. |
+| DELETE | Remove data from the server.                     |
