@@ -36,3 +36,48 @@ Configuration files are text files that store settings for various system compon
 | SSH configuration               | /etc/ssh/sshd_config                                                 |
 
 Configuration files are typically plain text files and can be edited using text editors such as **nano**, **vim**, or **vi**.
+
+## Examples
+
+### Network Configuration
+
+Changing the IP address in the **/etc/network/interfaces** file:
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 192.168.1.10
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+```
+
+### Web Server Configuration
+
+Changing the document root for a web server in the **/etc/nginx/sites-available/default** file:
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www/example;
+    index index.html;
+}
+```
+
+After making changes, verify the configuration syntax and restart Nginx.
+
+### System Parameter Configuration
+
+Changing kernel parameters in the **/etc/sysctl.conf** file:
+
+```bash
+net.ipv4.ip_forward=1
+```
+
+Apply the changes:
+
+```bash
+sysctl -p
+```
+
+This command reloads the parameters from **/etc/sysctl.conf** without requiring a system reboot.
