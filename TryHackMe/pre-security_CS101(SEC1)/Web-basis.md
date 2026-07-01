@@ -1,4 +1,0 @@
-# WEB fundamentals 
-
-## HTTP
-
