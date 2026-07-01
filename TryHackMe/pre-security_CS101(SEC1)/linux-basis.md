@@ -20,6 +20,11 @@ Every file and directory has permissions that can be modified.
 
 The command **ls -l** can be used to display additional information about files, including permissions, ownership, and other metadata.
 
+| Command   | Description                                                                                                                                | Permission Values                                                                                                                 | Example                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **chmod** | Changes file or directory permissions. In numeric mode, each digit represents permissions for a different group: **(owner/group/others)**. | **Symbolic mode:** `+/- (r, w, x)`<br><br>**Numeric mode:**<br>`4` = read (**r**)<br>`2` = write (**w**)<br>`1` = execute (**x**) | `chmod 755 filename`<br><br>`chmod +x filename`<br>`chmod -w filename` |
+
+
 ## What Are Configuration Files?
 
 Configuration files are text files that store settings for various system components and applications. They are commonly located in the following directories:
